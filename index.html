@@ -4,27 +4,138 @@
 <meta charset="UTF-8">
 <title>Calm Space</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-html,body{margin:0;height:100%;background:radial-gradient(circle at top,#081615,#020807);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#eaf8f4;overflow:hidden}
-canvas{position:fixed;inset:0;z-index:0}
-.ui{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:5}
-.panel{width:92%;max-width:760px;padding:40px;border-radius:32px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));backdrop-filter:blur(20px);box-shadow:0 30px 100px rgba(0,0,0,.35);text-align:center}
+html,body{
+  margin:0;
+  height:100%;
+  background:radial-gradient(circle at top,#081615,#020807);
+  font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+  color:#eaf8f4;
+  overflow:hidden;
+}
+
+/* Aurora */
+canvas{position:fixed;inset:0}
+
+/* UI */
+.ui{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.panel{
+  width:92%;
+  max-width:760px;
+  padding:44px;
+  border-radius:36px;
+  background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03));
+  backdrop-filter:blur(30px);
+  box-shadow:0 40px 120px rgba(0,0,0,.45);
+  text-align:center;
+}
 h1{font-weight:500;margin-bottom:10px}
-.sub{opacity:.7;font-size:15px;margin-bottom:24px}
-button{padding:12px 38px;border-radius:999px;border:none;background:linear-gradient(135deg,#9fffe8,#5fd0bf);color:#022;font-size:16px;cursor:pointer;transition:.1s}
+.sub{opacity:.7;font-size:15px;margin-bottom:26px}
+
+button{
+  padding:14px 42px;
+  border-radius:999px;
+  border:none;
+  background:linear-gradient(135deg,#9fffe8,#5fd0bf);
+  color:#022;
+  font-size:16px;
+  cursor:pointer;
+}
 button:active{transform:scale(.97)}
 .hidden{display:none}
-.game{min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
-.orb{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#dffff8,#4fbdb0);box-shadow:0 0 60px rgba(111,211,196,.35);transition:transform 1.2s ease}
-.trace{width:100%;height:140px;border-radius:24px;background:rgba(255,255,255,.05);position:relative}
-.path{position:absolute;inset:20px;border:2px dashed rgba(255,255,255,.15);border-radius:100px}
-.glow{position:fixed;width:18px;height:18px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(140,255,240,.8),rgba(140,255,240,.1));box-shadow:0 0 20px rgba(140,255,240,.5);transform:translate(-50%,-50%);animation:fade 1.2s forwards}
-@keyframes fade{to{opacity:0;transform:translate(-50%,-50%) scale(2)}}
-#companion{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);pointer-events:none;z-index:3}
-.presence{width:100px;height:160px;border-radius:50% 50% 70% 70%;background:radial-gradient(circle at 50% 20%,rgba(180,255,240,.9),rgba(100,200,180,.25),rgba(20,40,35,.1));box-shadow:0 0 70px rgba(140,255,240,.35);animation:breathe 7s ease-in-out infinite}
-@keyframes breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.03)}}
-#paywall{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);z-index:6}
-.best{background:linear-gradient(135deg,#b8fff0,#6ddbc6)!important}
+
+/* Games */
+.game{
+  min-height:240px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:22px;
+}
+.orb{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,#dffff8,#4fbdb0);
+  box-shadow:0 0 90px rgba(111,211,196,.45);
+  transition:transform 1.4s ease;
+}
+.trace{
+  width:100%;
+  height:160px;
+  border-radius:26px;
+  background:rgba(255,255,255,.05);
+  position:relative;
+}
+.path{
+  position:absolute;
+  inset:20px;
+  border:2px dashed rgba(255,255,255,.15);
+  border-radius:100px;
+}
+
+/* Glow trail */
+.glow{
+  position:fixed;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle,rgba(140,255,240,.8),rgba(140,255,240,.1));
+  box-shadow:0 0 30px rgba(140,255,240,.6);
+  transform:translate(-50%,-50%);
+  animation:fade 1.6s forwards;
+}
+@keyframes fade{
+  to{opacity:0;transform:translate(-50%,-50%) scale(2.2)}
+}
+
+/* Companion */
+#companion{
+  position:fixed;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%);
+  pointer-events:none;
+  z-index:10;
+}
+.presence{
+  width:120px;
+  height:180px;
+  border-radius:60px 60px 80px 80px;
+  background:radial-gradient(circle at 50% 20%,
+    rgba(180,255,240,.9),
+    rgba(100,200,180,.25),
+    rgba(20,40,35,.1)
+  );
+  box-shadow:0 0 90px rgba(140,255,240,.4);
+  animation:breathe 7s ease-in-out infinite;
+}
+@keyframes breathe{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-10px) scale(1.04)}
+}
+
+/* Paywall */
+#paywall{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.6);
+}
+.best{
+  background:linear-gradient(135deg,#b8fff0,#6ddbc6)!important;
+}
 </style>
 </head>
 <body>
@@ -34,7 +145,7 @@ button:active{transform:scale(.97)}
 <div class="ui">
   <div class="panel">
     <h1>Calm Space</h1>
-    <div class="sub">Relax and enjoy the moment.</div>
+    <div class="sub">There is nothing to finish.</div>
     <div class="game" id="game"></div>
     <button id="next">Begin Session</button>
   </div>
@@ -61,8 +172,6 @@ button:active{transform:scale(.97)}
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded",()=>{
-
 /* ===== FREE SESSIONS ===== */
 const MAX_FREE=3;
 let used=Number(localStorage.getItem("calm_sessions")||0);
@@ -70,28 +179,33 @@ let used=Number(localStorage.getItem("calm_sessions")||0);
 /* ===== AUDIO ===== */
 let audioCtx,masterGain;
 function startAudio(){
-  if(audioCtx) return;
   audioCtx=new (window.AudioContext||webkitAudioContext)();
   masterGain=audioCtx.createGain();
   masterGain.gain.value=.03;
   masterGain.connect(audioCtx.destination);
 
-  // Generate calming oscillators
-  for(let i=0;i<4;i++){
+  for(let i=0;i<5;i++){
     const o=audioCtx.createOscillator();
-    o.frequency.value=50+Math.random()*50;
+    o.frequency.value=50+Math.random()*120;
     const g=audioCtx.createGain();
     g.gain.value=0;
     o.connect(g).connect(masterGain);
     o.start();
-    g.gain.linearRampToValueAtTime(0.2,audioCtx.currentTime+5);
+    g.gain.linearRampToValueAtTime(1,audioCtx.currentTime+6);
   }
 }
 
 /* ===== TAP RHYTHM ===== */
 let taps=[];
-document.addEventListener("pointerdown",()=>{taps.push(performance.now());if(taps.length>6)taps.shift()});
-function breathingRate(){if(taps.length<2)return 6;let avg=(taps[taps.length-1]-taps[0])/(taps.length-1);return Math.min(10,Math.max(4,60000/avg))}
+document.addEventListener("pointerdown",()=>{
+  taps.push(performance.now());
+  if(taps.length>6)taps.shift();
+});
+function breathingRate(){
+  if(taps.length<2)return 6;
+  let avg=(taps[taps.length-1]-taps[0])/(taps.length-1);
+  return Math.min(10,Math.max(4,60000/avg));
+}
 
 /* ===== GAMES ===== */
 const gameEl=document.getElementById("game");
@@ -101,21 +215,34 @@ const games=[
 ()=>gameEl.innerHTML=`<div>Trace slowly.</div><div class="trace"><div class="path"></div></div>`,
 ()=>gameEl.innerHTML=`<div>Do nothing.</div><div class="orb"></div>`
 ];
-let index=-1;
-const nextBtn=document.getElementById("next");
 
-nextBtn.addEventListener("click",()=>{
+let index=-1;
+document.getElementById("next").onclick=()=>{
   if(used>=MAX_FREE){showPaywall();return;}
-  startAudio();
-  if(index===-1){used++;localStorage.setItem("calm_sessions",used);nextBtn.innerText="Next";}
+  if(index===-1){
+    startAudio();
+    used++;
+    localStorage.setItem("calm_sessions",used);
+    document.getElementById("next").innerText="Next";
+  }
   index++;
-  if(index<games.length){games[index]();}
-  else {gameEl.innerHTML="Stay as long as you like."; nextBtn.classList.add("hidden");}
-});
+  if(index>=games.length){
+    gameEl.innerHTML="Stay as long as you like.";
+    document.getElementById("next").classList.add("hidden");
+    return;
+  }
+  games[index]();
+};
 
 /* ===== PAYWALL ===== */
-function showPaywall(){document.querySelector(".ui").classList.add("hidden");document.getElementById("paywall").classList.remove("hidden")}
-function unlock(){localStorage.setItem("calm_sessions",0);location.reload()}
+function showPaywall(){
+  document.querySelector(".ui").classList.add("hidden");
+  document.getElementById("paywall").classList.remove("hidden");
+}
+function unlock(){
+  localStorage.setItem("calm_sessions",0);
+  location.reload();
+}
 
 /* ===== GLOW ===== */
 document.addEventListener("pointermove",e=>{
@@ -124,20 +251,8 @@ document.addEventListener("pointermove",e=>{
   g.style.left=e.clientX+"px";
   g.style.top=e.clientY+"px";
   document.body.appendChild(g);
-  setTimeout(()=>g.remove(),1200);
+  setTimeout(()=>g.remove(),1600);
 });
-
-/* ===== COMPANION ===== */
-const companion=document.querySelector(".presence");
-(function updateCompanion(){
-  const rate=breathingRate();
-  const speed=Math.max(4,Math.min(10,rate));
-  companion.style.animationDuration=speed+"s";
-  const closeness=1-(speed-4)/6;
-  companion.style.opacity=0.6+closeness*0.4;
-  companion.style.transform=`scale(${0.95+closeness*0.08})`;
-  requestAnimationFrame(updateCompanion);
-})();
 
 /* ===== AURORA ===== */
 const c=document.getElementById("aurora"),ctx=c.getContext("2d");
@@ -147,19 +262,18 @@ let t=0;
 (function draw(){
   t+=0.002;
   ctx.clearRect(0,0,c.width,c.height);
-  for(let i=0;i<2;i++){
+  for(let i=0;i<3;i++){
     ctx.beginPath();
-    ctx.moveTo(0,c.height*(0.35+i*0.25));
-    for(let x=0;x<c.width;x+=60){
-      ctx.lineTo(x,c.height*(0.35+i*0.25)+Math.sin(x*0.002+t*2+i)*60);
+    ctx.moveTo(0,c.height*(.3+i*.2));
+    for(let x=0;x<c.width;x+=40){
+      ctx.lineTo(x,c.height*(.3+i*.2)+Math.sin(x*.002+t*2+i)*80);
     }
-    ctx.strokeStyle="rgba(111,211,196,.16)";
-    ctx.lineWidth=120;
+    ctx.strokeStyle="rgba(111,211,196,.18)";
+    ctx.lineWidth=140;
     ctx.stroke();
   }
   requestAnimationFrame(draw);
 })();
-});
 </script>
 </body>
 </html>
