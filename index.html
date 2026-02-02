@@ -3,9 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Calm Space</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+:root{
+  --mint:#6fd3c4;
+  --mint-soft:rgba(111,211,196,0.25);
+}
 html,body{
   margin:0;
   height:100%;
@@ -14,128 +17,43 @@ html,body{
   color:#eaf8f4;
   overflow:hidden;
 }
-
-/* Aurora */
-canvas{position:fixed;inset:0}
-
-/* UI */
-.ui{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+canvas{position:fixed;inset:0;}
+.ui{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
 .panel{
-  width:92%;
-  max-width:760px;
-  padding:44px;
+  width:92%; max-width:760px; padding:44px;
   border-radius:36px;
-  background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03));
-  backdrop-filter:blur(30px);
-  box-shadow:0 40px 120px rgba(0,0,0,.45);
+  background:linear-gradient(180deg,rgba(255,255,255,0.09),rgba(255,255,255,0.03));
+  backdrop-filter:blur(30px); box-shadow:0 40px 120px rgba(0,0,0,0.45);
   text-align:center;
 }
-h1{font-weight:500;margin-bottom:10px}
-.sub{opacity:.7;font-size:15px;margin-bottom:26px}
-
+h1{font-weight:500;letter-spacing:0.5px;margin-bottom:12px;}
+.sub{opacity:0.75;font-size:15px;margin-bottom:28px;}
+.game{min-height:220px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px;}
 button{
-  padding:14px 42px;
-  border-radius:999px;
-  border:none;
-  background:linear-gradient(135deg,#9fffe8,#5fd0bf);
-  color:#022;
-  font-size:16px;
-  cursor:pointer;
+  margin-top:30px; padding:14px 42px; border-radius:999px; border:none;
+  background:linear-gradient(135deg,#7de3d4,#4fbdb0);
+  color:#04221d; font-size:16px; cursor:pointer;
 }
-button:active{transform:scale(.97)}
-.hidden{display:none}
-
-/* Games */
-.game{
-  min-height:240px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:22px;
-}
-.orb{
-  width:140px;
-  height:140px;
-  border-radius:50%;
-  background:radial-gradient(circle at 30% 30%,#dffff8,#4fbdb0);
-  box-shadow:0 0 90px rgba(111,211,196,.45);
-  transition:transform 1.4s ease;
-}
-.trace{
-  width:100%;
-  height:160px;
-  border-radius:26px;
-  background:rgba(255,255,255,.05);
-  position:relative;
-}
-.path{
-  position:absolute;
-  inset:20px;
-  border:2px dashed rgba(255,255,255,.15);
-  border-radius:100px;
-}
-
-/* Glow trail */
-.glow{
-  position:fixed;
-  width:22px;
-  height:22px;
-  border-radius:50%;
-  pointer-events:none;
-  background:radial-gradient(circle,rgba(140,255,240,.8),rgba(140,255,240,.1));
-  box-shadow:0 0 30px rgba(140,255,240,.6);
-  transform:translate(-50%,-50%);
-  animation:fade 1.6s forwards;
-}
-@keyframes fade{
-  to{opacity:0;transform:translate(-50%,-50%) scale(2.2)}
-}
-
-/* Companion */
-#companion{
-  position:fixed;
-  bottom:40px;
-  left:50%;
-  transform:translateX(-50%);
-  pointer-events:none;
-  z-index:10;
-}
+button:active{transform:scale(0.97);}
+.hidden{display:none;}
+.modes button{margin:6px;padding:8px 18px;border-radius:999px;background:rgba(255,255,255,0.12);color:#eaf8f4;border:none;}
+.orb{width:130px;height:130px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#c8fff5,#4fbdb0);box-shadow:0 0 80px var(--mint-soft);transition:transform 1.5s ease;}
+.hold{transition:none;}
+.trace{width:100%;height:160px;border-radius:24px;background:rgba(255,255,255,0.05);position:relative;}
+.path{position:absolute;inset:20px;border:2px dashed rgba(255,255,255,0.15);border-radius:100px;}
+.glow{position:fixed;width:22px;height:22px;border-radius:50%;pointer-events:none;background:radial-gradient(circle, rgba(140,255,240,0.8), rgba(140,255,240,0.1));box-shadow:0 0 30px rgba(140,255,240,0.6);transform:translate(-50%,-50%);animation:fade 1.6s forwards;}
+@keyframes fade{to{opacity:0; transform:translate(-50%,-50%) scale(2.2);}}
+#companion{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);pointer-events:none;z-index:10;}
 .presence{
-  width:120px;
-  height:180px;
-  border-radius:60px 60px 80px 80px;
-  background:radial-gradient(circle at 50% 20%,
-    rgba(180,255,240,.9),
-    rgba(100,200,180,.25),
-    rgba(20,40,35,.1)
-  );
-  box-shadow:0 0 90px rgba(140,255,240,.4);
-  animation:breathe 7s ease-in-out infinite;
+  width:120px;height:180px;border-radius:60px 60px 80px 80px;
+  background:radial-gradient(circle at 50% 20%, rgba(180,255,240,0.9), rgba(100,200,180,0.25), rgba(20,40,35,0.1));
+  box-shadow:0 0 80px rgba(140,255,240,0.35), inset 0 0 40px rgba(255,255,255,0.2);
+  animation:breathe 7s ease-in-out infinite; opacity:0.9;
 }
-@keyframes breathe{
-  0%,100%{transform:translateY(0) scale(1)}
-  50%{transform:translateY(-10px) scale(1.04)}
-}
-
-/* Paywall */
-#paywall{
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(0,0,0,.6);
-}
-.best{
-  background:linear-gradient(135deg,#b8fff0,#6ddbc6)!important;
-}
+@keyframes breathe{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-10px) scale(1.04);}}
+#paywall{position:fixed;inset:0;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;z-index:50;}
+#paywall .panel{max-width:400px;}
+.best{background:linear-gradient(135deg,#9fffe8,#5fd0bf);color:#022;}
 </style>
 </head>
 <body>
@@ -145,135 +63,102 @@ button:active{transform:scale(.97)}
 <div class="ui">
   <div class="panel">
     <h1>Calm Space</h1>
-    <div class="sub">There is nothing to finish.</div>
+    <div class="sub">Move slowly. There’s nothing to finish.</div>
     <div class="game" id="game"></div>
+    <div class="modes">
+      <button onclick="setMode('sleep')">Sleep</button>
+      <button onclick="setMode('focus')">Focus</button>
+      <button onclick="setMode('calm')">Calm</button>
+    </div>
     <button id="next">Begin Session</button>
   </div>
 </div>
 
-<div id="companion">
-  <div class="presence"></div>
-</div>
+<div id="companion"><div class="presence"></div></div>
 
 <div id="paywall" class="hidden">
   <div class="panel">
     <h1>Continue Your Calm</h1>
-    <div class="sub">
-      You’ve used your free sessions.<br>
-      Choose a pace that feels right.
-    </div>
-    <button onclick="unlock()">Weekly — $3.99</button><br><br>
-    <button onclick="unlock()">Monthly — $9.99</button><br><br>
-    <button class="best" onclick="unlock()">Yearly — $59.99</button>
-    <div class="sub" style="margin-top:22px;opacity:.5">
-      Demo mode — no charge
-    </div>
+    <div class="sub">You’ve completed your free sessions 🌿<br>Choose a pace that feels right.</div>
+    <button onclick="fakePay('weekly')">Weekly – $3.99</button><br><br>
+    <button onclick="fakePay('monthly')">Monthly – $9.99</button><br><br>
+    <button class="best" onclick="fakePay('yearly')">Yearly – $59.99</button>
+    <div class="sub" style="margin-top:24px;opacity:.6">No charge yet – demo mode</div>
   </div>
 </div>
 
 <script>
-/* ===== FREE SESSIONS ===== */
-const MAX_FREE=3;
-let used=Number(localStorage.getItem("calm_sessions")||0);
-
-/* ===== AUDIO ===== */
-let audioCtx,masterGain;
-function startAudio(){
-  audioCtx=new (window.AudioContext||webkitAudioContext)();
-  masterGain=audioCtx.createGain();
-  masterGain.gain.value=.03;
-  masterGain.connect(audioCtx.destination);
-
-  for(let i=0;i<5;i++){
-    const o=audioCtx.createOscillator();
-    o.frequency.value=50+Math.random()*120;
-    const g=audioCtx.createGain();
-    g.gain.value=0;
-    o.connect(g).connect(masterGain);
-    o.start();
-    g.gain.linearRampToValueAtTime(1,audioCtx.currentTime+6);
-  }
-}
-
-/* ===== TAP RHYTHM ===== */
-let taps=[];
-document.addEventListener("pointerdown",()=>{
-  taps.push(performance.now());
-  if(taps.length>6)taps.shift();
-});
-function breathingRate(){
-  if(taps.length<2)return 6;
-  let avg=(taps[taps.length-1]-taps[0])/(taps.length-1);
-  return Math.min(10,Math.max(4,60000/avg));
-}
-
-/* ===== GAMES ===== */
-const gameEl=document.getElementById("game");
-const games=[
-()=>gameEl.innerHTML=`<div>Hold the light.</div><div class="orb"></div>`,
-()=>gameEl.innerHTML=`<div>Drag gently.</div><div class="orb"></div>`,
-()=>gameEl.innerHTML=`<div>Trace slowly.</div><div class="trace"><div class="path"></div></div>`,
-()=>gameEl.innerHTML=`<div>Do nothing.</div><div class="orb"></div>`
-];
-
-let index=-1;
-document.getElementById("next").onclick=()=>{
-  if(used>=MAX_FREE){showPaywall();return;}
-  if(index===-1){
-    startAudio();
-    used++;
-    localStorage.setItem("calm_sessions",used);
-    document.getElementById("next").innerText="Next";
-  }
-  index++;
-  if(index>=games.length){
-    gameEl.innerHTML="Stay as long as you like.";
-    document.getElementById("next").classList.add("hidden");
-    return;
-  }
-  games[index]();
-};
-
-/* ===== PAYWALL ===== */
+/* ================= FREE SESSIONS / PAYWALL ================= */
+const MAX_FREE = 3;
+let used = Number(localStorage.getItem("calm_sessions")||0);
+function canStartSession(){return used<MAX_FREE;}
+function recordSession(){used++; localStorage.setItem("calm_sessions", used);}
 function showPaywall(){
   document.querySelector(".ui").classList.add("hidden");
   document.getElementById("paywall").classList.remove("hidden");
 }
-function unlock(){
-  localStorage.setItem("calm_sessions",0);
-  location.reload();
+function fakePay(plan){alert("Membership unlocked ("+plan+") — demo mode"); localStorage.setItem("calm_sessions",0); location.reload();}
+
+/* ================= AUDIO ================= */
+let audioCtx, masterGain;
+function startAudio(){
+  audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+  masterGain=audioCtx.createGain(); masterGain.gain.value=0.03; masterGain.connect(audioCtx.destination);
+  for(let i=0;i<4;i++){
+    const o=audioCtx.createOscillator(); o.frequency.value=60+Math.random()*80;
+    const g=audioCtx.createGain(); g.gain.value=0;
+    o.connect(g).connect(masterGain); o.start();
+    g.gain.linearRampToValueAtTime(1,audioCtx.currentTime+5);
+  }
+  const buf=audioCtx.createBuffer(1,audioCtx.sampleRate*3,audioCtx.sampleRate);
+  const data=buf.getChannelData(0); for(let i=0;i<data.length;i++) data[i]=(Math.random()*2-1)*0.02;
+  const noise=audioCtx.createBufferSource(); noise.buffer=buf; noise.loop=true;
+  const filter=audioCtx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.value=600;
+  const g=audioCtx.createGain(); g.gain.value=0.015;
+  noise.connect(filter).connect(g).connect(masterGain); noise.start();
 }
 
-/* ===== GLOW ===== */
-document.addEventListener("pointermove",e=>{
-  const g=document.createElement("div");
-  g.className="glow";
-  g.style.left=e.clientX+"px";
-  g.style.top=e.clientY+"px";
-  document.body.appendChild(g);
-  setTimeout(()=>g.remove(),1600);
-});
+/* ================= CALM GAMES ================= */
+const gameEl=document.getElementById("game");
+const nextBtn=document.getElementById("next");
+let index=-1;
+let mode="calm";
+function setMode(m){mode=m;}
+const games=[
+  ()=>{gameEl.innerHTML=`<div>Press and hold the light.</div><div class="orb hold" id="holdOrb"></div>`; const orb=document.getElementById("holdOrb"); orb.onpointerdown=()=>orb.style.transform="scale(1.4)"; orb.onpointerup=orb.onpointerleave=()=>orb.style.transform="scale(1)";},
+  ()=>{gameEl.innerHTML=`<div>Gently drag the orb.</div><div class="orb" id="dragOrb"></div>`; const orb=document.getElementById("dragOrb"); let down=false; orb.onpointerdown=()=>down=true; document.onpointerup=()=>down=false; document.onpointermove=e=>{if(down){orb.style.transform=`translate(${e.movementX}px,${e.movementY}px)`;}};},
+  ()=>{gameEl.innerHTML=`<div>Trace the path slowly.</div><div class="trace"><div class="path"></div></div>`;},
+  ()=>{gameEl.innerHTML=`<div>Do nothing for a moment.</div><div class="orb"></div>`;}
+];
 
-/* ===== AURORA ===== */
-const c=document.getElementById("aurora"),ctx=c.getContext("2d");
-function resize(){c.width=innerWidth;c.height=innerHeight}
-resize();onresize=resize;
-let t=0;
-(function draw(){
-  t+=0.002;
-  ctx.clearRect(0,0,c.width,c.height);
-  for(let i=0;i<3;i++){
-    ctx.beginPath();
-    ctx.moveTo(0,c.height*(.3+i*.2));
-    for(let x=0;x<c.width;x+=40){
-      ctx.lineTo(x,c.height*(.3+i*.2)+Math.sin(x*.002+t*2+i)*80);
-    }
-    ctx.strokeStyle="rgba(111,211,196,.18)";
-    ctx.lineWidth=140;
-    ctx.stroke();
-  }
-  requestAnimationFrame(draw);
-})();
+/* ================= TAP-SYNC BREATHING ================= */
+let taps=[]; document.addEventListener("pointerdown",()=>{const now=performance.now(); taps.push(now); if(taps.length>6)taps.shift();});
+function breathingRate(){if(taps.length<2)return 6; let intervals=[];for(let i=1;i<taps.length;i++)intervals.push(taps[i]-taps[i-1]); let avg=intervals.reduce((a,b)=>a+b,0)/intervals.length; return Math.min(10,Math.max(3,60000/avg));}
+
+/* ================= COMPANION RESPONSE ================= */
+const companion=document.querySelector(".presence");
+setInterval(()=>{
+  const rate=breathingRate(); const speed=Math.max(4,Math.min(10,rate));
+  companion.style.animationDuration=speed+"s"; const closeness=1-(speed-4)/6;
+  companion.style.opacity=0.6+closeness*0.4; companion.style.transform=`scale(${0.95+closeness*0.08})`;
+},600);
+
+/* ================= GLOW FOLLOWER ================= */
+document.addEventListener("pointermove",e=>{const g=document.createElement("div"); g.className="glow"; g.style.left=e.clientX+"px"; g.style.top=e.clientY+"px"; document.body.appendChild(g); setTimeout(()=>g.remove(),1600);});
+
+/* ================= BUTTON LOGIC ================= */
+nextBtn.onclick=()=>{
+  if(!canStartSession()){showPaywall(); return;}
+  recordSession();
+  if(index===-1){startAudio(); nextBtn.innerText="Next";}
+  index++; if(index>=games.length){gameEl.innerHTML="Stay as long as you like."; nextBtn.classList.add("hidden"); return;}
+  games[index]();
+};
+
+/* ================= AURORA ================= */
+const c=document.getElementById("aurora"),ctx=c.getContext("2d"); function resize(){c.width=innerWidth;c.height=innerHeight} resize(); onresize=resize;
+let t=0; function draw(){t+=0.002; ctx.clearRect(0,0,c.width,c.height); for(let i=0;i<3;i++){const y=c.height*(0.3+i*0.2);ctx.beginPath();ctx.moveTo(0,y);for(let x=0;x<c.width;x+=40){ctx.lineTo(x,y+Math.sin(x*0.002+t*2+i)*80);}ctx.strokeStyle="rgba(111,211,196,0.18)";ctx.lineWidth=140;ctx.stroke();}requestAnimationFrame(draw);} draw();
 </script>
+
 </body>
 </html>
